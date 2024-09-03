@@ -1,0 +1,26 @@
+# Contributor: Vilmar Catafesta <vcatafesta@gmail.com>
+
+pkgname=chili-nautilus-terminal
+pkgver=4.1.0
+pkgrel=1
+pkgdesc="Embedded terminal for Nautilus"
+arch=(any)
+url="https://github.com/chililinux/chili-nautilus-terminal"
+license=(GPL3)
+#depends=('nautilus<43' 'python-nautilus<4' 'python-psutil' 'vte3')
+depends=('nautilus' 'python-nautilus' 'python-psutil' 'vte3')
+makedepends=(git python-setuptools)
+_commit=752b87dfb289f48c493fac4d2145e747f1809638
+source=("git+${url}.git")
+sha512sums=('SKIP')
+
+build() {
+	cd $pkgname
+	python3 setup.py build
+}
+
+package() {
+	cd $pkgname
+	python3 setup.py install --root="$pkgdir" --optimize=1
+	rm "$pkgdir"/usr/share/glib-2.0/schemas/gschemas.compiled
+}
